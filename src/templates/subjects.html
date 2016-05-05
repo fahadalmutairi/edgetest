@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <div class="row">
+      <h3></h3>
+    </div>
+  <div class="row">
+    {% for subject in subjects %}
+    <div class="col-md-4">
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+          <a href="/subject_detail/{{subject.pk}}">{{subject.subject_name}}</a>
+          {% if subject not in request.user.fav_subject.all %}
+          <button type="button" class="btn btn-default"><a href="/follow_subject/{{subject.pk}}">أضف لموادي
+          </a></button>
+          {%else%}
+          <button type="button" class="btn btn-default"><a href="/unfollow_subject/{{subject.pk}}">
+            أزل من موادي
+          </a></button>
+          {%endif%}
+        </div>
+
+        <div class="panel-body">
+          ..
+        </div>
+
+        <!-- List group -->
+        {% for video in subject.video_set.all %}
+        <ul class="list-group">
+          <li class="list-group-item">
+            <a href="/video_view/{{video.pk}}">{{ video.video_name}}</a>
+            {% if video not in request.user.fav_video.all %}
+            <button type="button" class="btn btn-default"><a href="/fav_video/{{video.pk}}">أضف للمفضلة</a></button>
+            {%else%}
+            <button type="button" class="btn btn-default"><a href="/unfav_video/{{video.pk}}">أزل من المفضلة</a></button>
+            {%endif%}
+          </li>
+        </ul>
+        {%endfor%}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
